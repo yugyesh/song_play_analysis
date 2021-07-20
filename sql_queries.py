@@ -1,5 +1,5 @@
 # DROP TABLE QUERIES
-songplay_table_drop = "DROP TABLE IF EXISTS songplay"
+songplay_table_drop = "DROP TABLE IF EXISTS songplays"
 users_table_drop = "DROP TABLE IF EXISTS users"
 songs_table_drop = "DROP TABLE IF EXISTS songs"
 artists_table_drop = "DROP TABLE IF EXISTS artists"

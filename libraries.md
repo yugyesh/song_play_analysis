@@ -15,3 +15,7 @@ Black is the uncompromising Python code formatter. By using it, you agree to ced
 ## python-dotenv
 
 Python-dotenv reads key-value pairs from a .env file and can set them as environment variables. It helps in the development of applications following the 12-factor principles.
+
+## ipykernel
+
+IPython kernel for virtual environment
