@@ -1,6 +1,6 @@
 import psycopg2
 from dotenv import dotenv_values
-from sql_queries import create_table_queries
+from sql_queries import create_table_queries, drop_table_queries
 
 
 def create_database():
@@ -82,6 +82,19 @@ def create_tables(cur, conn):
         print(error)
 
 
+def drop_tables(cur, conn):
+    """
+    Drops each table using the queries in `drop_table_queries` list.
+    """
+    try:
+        for query in drop_table_queries:
+            cur.execute(query)
+            conn.commit()
+    except psycopg2.Error as error:
+        print("Error: Unable to drop table")
+        print(error)
+
+
 def main():
     """
     - Drops (if exists) and Creates the sparkify database.
@@ -96,6 +109,8 @@ def main():
     - Finally, closes the connection.
     """
     cur, conn = create_database()
+
+    drop_tables(cur, conn)
 
     create_tables(cur, conn)
 
