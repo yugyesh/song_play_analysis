@@ -7,7 +7,7 @@ time_table_drop = "DROP TABLE IF EXISTS time"
 
 
 # CREATE TABLE QUERIES
-songplay_table_create = """CREATE TABLE IF NOT EXISTS songplay(songplay_id int, start_time int, user_id int,
+songplays_table_create = """CREATE TABLE IF NOT EXISTS songplays(songplay_id int, start_time int, user_id int,
  level varchar, song_id int, artist_id int, session_id int, location varchar, user_agent varchar)"""
 
 users_table_create = """CREATE TABLE IF NOT EXISTS users
@@ -22,8 +22,9 @@ artists_table_create = """CREATE TABLE IF NOT EXISTS artists
 time_table_create = """CREATE TABLE IF NOT EXISTS time
 (start_time float, hour int, day int, week int, month int, year int, weekday int)"""
 
+# QUERY LIST
 create_table_queries = [
-    songplay_table_create,
+    songplays_table_create,
     users_table_create,
     songs_table_create,
     artists_table_create,
