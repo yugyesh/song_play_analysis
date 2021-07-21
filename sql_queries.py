@@ -20,7 +20,23 @@ artists_table_create = """CREATE TABLE IF NOT EXISTS artists
 (artist_id varchar PRIMARY KEY, name varchar, location varchar, latitude varchar, longitude varchar)"""
 
 time_table_create = """CREATE TABLE IF NOT EXISTS time
-(start_time timestamp, hour int, day int, week int, month int, year int, weekday varchar)"""
+(start_time timestamp PRIMARY KEY, hour int, day int, week int, month int, year int, weekday varchar)"""
+
+# TODO: use a variable called songs_columns insted of long string for columns
+
+# INSERT QUERIES
+songs_table_insert = """INSERT INTO songs(song_id, title, artist_id, year, duration)
+VALUES(%s, %s, %s, %s, %s)"""
+
+artists_table_insert = """INSERT INTO artists(artist_id, name, location, latitude, longitude)
+VALUES(%s, %s, %s, %s, %s)"""
+
+time_table_insert = """INSERT INTO time(start_time, hour, day, week, month, year, weekday)
+VALUES(%s, %s, %s, %s, %s, %s, %s)"""
+
+users_table_insert = """INSERT INTO users(user_id, first_name, last_name, gender, level)
+VALUES(%s, %s, %s, %s, %s)"""
+
 
 # QUERY LIST
 create_table_queries = [
