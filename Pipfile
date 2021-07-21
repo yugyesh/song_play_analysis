@@ -8,6 +8,7 @@ psycopg2 = "*"
 python-dotenv = "*"
 ipykernel = "*"
 pandas = "*"
+ipython-sql = "*"
 
 [dev-packages]
 pylint = "*"

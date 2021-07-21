@@ -20,7 +20,7 @@ artists_table_create = """CREATE TABLE IF NOT EXISTS artists
 (artist_id varchar PRIMARY KEY, name varchar, location varchar, latitude varchar, longitude varchar)"""
 
 time_table_create = """CREATE TABLE IF NOT EXISTS time
-(start_time float, hour int, day int, week int, month int, year int, weekday int)"""
+(start_time timestamp, hour int, day int, week int, month int, year int, weekday varchar)"""
 
 # QUERY LIST
 create_table_queries = [
