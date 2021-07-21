@@ -14,7 +14,7 @@ users_table_create = """CREATE TABLE IF NOT EXISTS users
 (user_id int PRIMARY KEY, first_name varchar, last_name varchar, gender varchar, level varchar)"""
 
 songs_table_create = """CREATE TABLE IF NOT EXISTS songs
-(song_id varchar PRIMARY KEY, title varchar, artist_id varchar, year int, duration int)"""
+(song_id varchar PRIMARY KEY, title varchar, artist_id varchar, year int, duration float)"""
 
 artists_table_create = """CREATE TABLE IF NOT EXISTS artists
 (artist_id varchar PRIMARY KEY, name varchar, location varchar, latitude varchar, longitude varchar)"""
@@ -37,8 +37,12 @@ VALUES(%s, %s, %s, %s, %s, %s, %s)"""
 users_table_insert = """INSERT INTO users(user_id, first_name, last_name, gender, level)
 VALUES(%s, %s, %s, %s, %s)"""
 
+songplays_table_insert = """INSERT INTO songplays(start_time, user_id, level, song_id, artist_id,
+session_id, location, user_agent)
+VALUES(%s, %s, %s, %s, %s, %s, %s, %s) ON CONFLICT (songplay_id) DO NOTHING"""
+
 # SELECT QUERY
-song_select = """SELECT song_id, artists.artist_id FROM
+song_select = """SELECT songs.song_id, artists.artist_id FROM
 (songs INNER JOIN artists ON songs.artist_id = artists.artist_id)
 WHERE songs.title = %s AND artists.name = %s AND songs.duration = %s """
 
