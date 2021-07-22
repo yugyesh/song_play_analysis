@@ -16,7 +16,7 @@ This project has been developed in order to understand the the songs listening b
 - Postgres
 - Notion for project management
 - Github for Version control
-- List of libraries are defined in the libraries&#46;md file
+- List of libraries are defined in the [libraries&#46;md](https://github.com/yugyesh/song_play_analysis/blob/V1.0/libraries.md) file
 
 ## Usage manual
 - Create .env file to store username and password of the database
@@ -46,7 +46,7 @@ This program is a pipeline for the project that
 ## Additional files
 The project also consists of additional files such as:
 - etl.ipynb: It describes the process of ETL script
-- libraries&#46;md: Lists the name of used third party libraries
+- [libraries&#46;md](https://github.com/yugyesh/song_play_analysis/blob/V1.0/libraries.md): Lists the name of used third party libraries
 - Pipfile: To mange project dependencies
 - .pylintrc: Defines linting rules in the project
-- commit_rules.md: Defines the commit rules for the project
+- [commit_rules.md](https://github.com/yugyesh/song_play_analysis/blob/master/commit_rules.md): Defines the commit rules for the project
