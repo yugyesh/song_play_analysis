@@ -5,7 +5,14 @@ import pandas as pd
 import psycopg2
 from dotenv import dotenv_values
 
-from sql_queries import *
+from sql_queries import (
+    song_table_insert,
+    time_table_insert,
+    user_table_insert,
+    artist_table_insert,
+    song_select,
+    songplay_table_insert,
+)
 
 
 def process_song_file(cur, filepath):
@@ -51,11 +58,8 @@ def process_log_file(cur, filepath):
     # open log file
     df = pd.read_json(filepath, lines=True)
 
-    print(df.shape)
-
     # filter by NextSong action
     df = df[df["page"] == "NextSong"]
-    print(df.shape)
 
     # Extract time data
     t = pd.to_datetime(df.ts, unit="ms")
@@ -68,9 +72,8 @@ def process_log_file(cur, filepath):
     df["day_name"] = t.dt.day_name()
 
     time_df = df[["timestamp", "hour", "day", "week", "month", "year", "day_name"]]
-    print(time_df.shape)
     time_df.drop_duplicates(subset=["timestamp"])
-    print(time_df.shape)
+
     # Insert time data
     for i, row in time_df.iterrows():
         try:
@@ -113,7 +116,6 @@ def process_log_file(cur, filepath):
         if results:
             songid, artistid = results
             print(results)
-            print("YES")
         else:
             songid, artistid = None, None
 
