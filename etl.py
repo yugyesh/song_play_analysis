@@ -28,9 +28,9 @@ def process_song_file(cur, filepath):
     ]
     try:
         cur.execute(song_table_insert, song_data)
-    except psycopg2.Error as e:
-        print("Error: Unable to store the song data")
-        print(e)
+    except psycopg2.Error as error:
+        print("Error: Unable to insert the song data")
+        print(error)
 
     # insert artists data
     artist_data = [
@@ -42,9 +42,97 @@ def process_song_file(cur, filepath):
     ]
     try:
         cur.execute(artist_table_insert, artist_data)
-    except psycopg2.Error as e:
-        print("Error: Unable to store artist data")
-        print(e)
+    except psycopg2.Error as error:
+        print("Error: Unable to insert artist data")
+        print(error)
+
+
+def process_log_file(cur, filepath):
+    # open log file
+    df = pd.read_json(filepath, lines=True)
+
+    print(df.shape)
+
+    # filter by NextSong action
+    df = df[df["page"] == "NextSong"]
+    print(df.shape)
+
+    # Extract time data
+    t = pd.to_datetime(df.ts, unit="ms")
+    df["timestamp"] = t
+    df["hour"] = t.dt.hour
+    df["day"] = t.dt.day
+    df["week"] = t.dt.hour
+    df["month"] = t.dt.month
+    df["year"] = t.dt.year
+    df["day_name"] = t.dt.day_name()
+
+    time_df = df[["timestamp", "hour", "day", "week", "month", "year", "day_name"]]
+    print(time_df.shape)
+    time_df.drop_duplicates(subset=["timestamp"])
+    print(time_df.shape)
+    # Insert time data
+    for i, row in time_df.iterrows():
+        try:
+            cur.execute(time_table_insert, list(row))
+        except psycopg2.Error as error:
+            print("Error: Unable to insert time data")
+            print(error)
+
+    # Load user data
+    user_df = df[["userId", "firstName", "lastName", "gender", "level"]]
+
+    # Deleting duplicate userid
+    user_df = user_df.drop_duplicates()
+
+    # Eleminate user_id if it's empty
+    user_df = user_df[user_df.userId != ""]
+
+    # Change naming convention
+    user_df.columns = ["user_id", "first_name", "last_name", "gender", "level"]
+
+    for i, row in user_df.iterrows():
+        try:
+            cur.execute(user_table_insert, row)
+        except psycopg2.Error as error:
+            print("Error: Unable to insert user")
+            print(error)
+
+    # Insert songplay records
+    for index, row in df.iterrows():
+
+        # get songid and artistid from song and artist tables
+        try:
+            cur.execute(song_select, (row.song, row.artist, row.length))
+        except psycopg2.Error as error:
+            print("Error: Unable to select artistid and songid")
+            print(error)
+            continue
+
+        results = cur.fetchone()
+        if results:
+            songid, artistid = results
+            print(results)
+            print("YES")
+        else:
+            songid, artistid = None, None
+
+        # insert songplay record
+        songplay_data = (
+            pd.to_datetime(row.ts),
+            row.userId,
+            row.level,
+            songid,
+            artistid,
+            row.sessionId,
+            row.location,
+            row.userAgent,
+        )
+        try:
+            cur.execute(songplay_table_insert, songplay_data)
+        except psycopg2.Error as error:
+            print("Error: Unable to insert songplay data")
+            print(error)
 
 
 def process_data(cur, conn, filepath, func):
@@ -103,6 +191,7 @@ def main():
 
     # Process song data
     process_data(cur, conn, filepath="data/song_data", func=process_song_file)
+    process_data(cur, conn, filepath="data/log_data", func=process_log_file)
 
 
 if __name__ == "__main__":
