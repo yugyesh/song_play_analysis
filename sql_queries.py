@@ -26,7 +26,7 @@ time_table_create = """CREATE TABLE IF NOT EXISTS time
 
 # INSERT QUERIES
 song_table_insert = """INSERT INTO songs(song_id, title, artist_id, year, duration)
-VALUES(%s, %s, %s, %s, %s)"""
+VALUES(%s, %s, %s, %s, %s) ON CONFLICT (songplay_id) DO NOTHING"""
 
 artist_table_insert = """INSERT INTO artists(artist_id, name, location, latitude, longitude)
 VALUES(%s, %s, %s, %s, %s) ON CONFLICT (artist_id) DO NOTHING"""
