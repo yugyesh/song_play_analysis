@@ -88,9 +88,6 @@ def process_log_file(cur, filepath):
     # Deleting duplicate userid
     user_df = user_df.drop_duplicates()
 
-    # Eleminate user_id if it's empty
-    user_df = user_df[user_df.userId != ""]
-
     # Change naming convention
     user_df.columns = ["user_id", "first_name", "last_name", "gender", "level"]
 
