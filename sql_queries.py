@@ -46,8 +46,8 @@ CREATE TABLE IF NOT EXISTS artists(
 artist_id varchar PRIMARY KEY,
 name varchar NOT NULL,
 location varchar,
-latitude varchar,
-longitude varchar
+latitude float,
+longitude float
 )
 """
 
