@@ -113,25 +113,22 @@ def process_log_file(cur, filepath):
         if results:
             songid, artistid = results
             print(results)
-        else:
-            songid, artistid = None, None
-
-        # insert songplay record
-        songplay_data = (
-            pd.to_datetime(row.ts),
-            row.userId,
-            row.level,
-            songid,
-            artistid,
-            row.sessionId,
-            row.location,
-            row.userAgent,
-        )
-        try:
-            cur.execute(songplay_table_insert, songplay_data)
-        except psycopg2.Error as error:
-            print("Error: Unable to insert songplay data")
-            print(error)
+            # insert songplay record
+            songplay_data = (
+                pd.to_datetime(row.ts),
+                row.userId,
+                row.level,
+                songid,
+                artistid,
+                row.sessionId,
+                row.location,
+                row.userAgent,
+            )
+            try:
+                cur.execute(songplay_table_insert, songplay_data)
+            except psycopg2.Error as error:
+                print("Error: Unable to insert songplay data")
+                print(error)
 
 
 def process_data(cur, conn, filepath, func):
